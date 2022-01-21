@@ -1,0 +1,10 @@
+# create a new function to handle data injection and donot expose data endpoints.
+#create approve-links style classes
+#write logic for admin-reviewer
+
+#frontend:
+    1. Work on the admin permission frontend
+
+#blog_server_time -> time at which blog was submitted to the server
+
+blog-title-column

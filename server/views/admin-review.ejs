@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin review</title>
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/extra.css" />
+    <link href="./prism/prism.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/_global.css" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a class="active" href="/">Home</a>
+      <a href="#">About</a>
+      <a href="/blogs">Blogs</a>
+    </div>
+
+    <div class="blog-head">
+      <div id="blog-title"></div>
+      <div id="blog-time" class="blog-time"></div>
+    </div>
+    <hr id="hr-alt" />
+    <div id="blog-body" class="blog-body"></div>
+    <div class="btngroup">
+      <button class="bubbly-button" id="approve">Approve</button>
+      <button class="bubbly-button" id="decline">Decline</button>
+    </div>
+    <div id="snackbar">Approved</div>
+    <script>
+      var blogData;
+      blogData = <%- JSON.stringify(blogObject) %>;
+    </script>
+  </body>
+  <script src="./prism/prism.js"></script>
+  <script src="./scripts/admin-review.js"></script>
+</html>

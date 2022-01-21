@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Noto+Serif&family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro&display=swap");
+.permission-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Merriweather";
+  background-color: lightgray;
+  padding: 1px 10px;
+  margin: 7px;
+  cursor: pointer;
+  transition: transform 0.4s;
+  transition: blox-shadow 0.4s;
+  box-shadow: 3px 3px black;
+  border-radius: 3px;
+}
+.permission-container h2 {
+  align-self: flex-start;
+}
+.permission-container:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px black;
+}
+.request-head {
+  text-align: center;
+  font-family: "Pt Serif";
+}
+.request-head-decline {
+  text-align: right;
+}
+.server-time {
+  align-self: flex-end;
+  font-family: "Arial";
+  font-size: 0.7rem;
+  padding: 3px;
+}
+.empty-image {
+  padding: 30px;
+  display: flex;
+  font-family: "Arial";
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0.2;
+}
+.empty-image img {
+  min-width: 200px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 60%;
+  margin: auto;
+}
+
+td,
+th {
+  border: 1px solid #afafaf;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.row-labels {
+  font-weight: bold;
+  background-color: #dfd7d7;
+}
+.row-labels td {
+  text-align: center;
+}
+
+.request-head-decline {
+  margin: auto;
+  text-align: right;
+  width: 60%;
+}

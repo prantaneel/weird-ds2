@@ -1,0 +1,11 @@
+.editor-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+}
+#btn {
+  margin: 10px;
+  padding: 5px;
+}

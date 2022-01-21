@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Approve</title>
+    <link rel="stylesheet" href="./styles/admin-approve.css"></link>
+    <link rel="stylesheet" href="/styles/_global.css">
+  </head>
+  <body>
+    <div class="topnav">
+      <a class="active" href="/">Home</a>
+      <a href="#">About</a>
+      <a href="/blogs">Blogs</a>
+    </div>
+
+    
+
+    <div class="request-head"><h1>Pending Requests</h1></div>
+    <table id = "data-table">
+      <tr class="row-labels">
+        <td>Blog Id</td>
+        <td>Blog Title</td>
+        <td>Publish Time</td>
+      </tr>
+    </table>
+    <div id="empty-div"></div>
+    <div class="request-head-decline">[<a href="/admin-declined">Declined Requests</a>]</div>
+    <script>
+      var pending_admin_requests = <%-JSON.stringify(pending_requests)%>;
+      //console.log(pending_admin_requests);
+    </script>
+  </body>
+  <script src="/scripts/adminapprove-pending.js"></script>
+</html>
