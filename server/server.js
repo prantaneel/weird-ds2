@@ -11,8 +11,8 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const blogidcalc = require("./functions/blog-id-calc");
 const constants = require("./functions/constants");
-var CookieParser = require("cookie-parser");
-const flash = require("express-flash");
+var cookieParser = require("cookie-parser");
+var flash = require("express-flash");
 const session = require("express-session");
 
 const initializePassport = require("./passport-config");
@@ -39,10 +39,12 @@ app.use(
     origin: "*",
   })
 );
+app.use(cookieParser("secret"));
 app.set("view engine", "ejs");
 app.use(flash());
 app.use(
   session({
+    cookie: { maxAge: 60000 },
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -213,18 +215,37 @@ app.get("/admin-login", checkNotAuthenticated, (req, res) => {
   res.render("admin-login.ejs");
 });
 app.get("/admin-register", checkNotAuthenticated, (req, res) => {
-  res.render("admin-register.ejs");
+  var regerr = req.query.registerError;
+  if (regerr === "alreadyregistered") {
+    res.render("admin-register.ejs", { errorMessage: "Already Registered" });
+  } else if (regerr === "missingcreds") {
+    res.render("admin-register.ejs", { errorMessage: "Missing Credentials" });
+  } else res.render("admin-register.ejs", { errorMessage: undefined });
 });
 app.post("/admin-register", checkNotAuthenticated, async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    users.push({
-      id: Date.now().toString(),
-      name: req.body.name,
-      email: req.body.email,
-      password: hashedPassword,
-    });
-    res.redirect("/admin-login");
+    //need to check if the user with that mail already exists
+    var user = users.find((user) => user.email === req.body.email);
+    if (user) {
+      var registeredError = "alreadyregistered";
+      res.redirect(`/admin-register?registerError=${registeredError}`);
+    } else if (
+      req.body.email == "" ||
+      req.body.name == "" ||
+      req.body.password == ""
+    ) {
+      var registeredError = "missingcreds";
+      res.redirect(`/admin-register?registerError=${registeredError}`);
+    } else {
+      users.push({
+        id: Date.now().toString(),
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword,
+      });
+      res.redirect("/admin-login");
+    }
   } catch {
     res.redirect("/admin-register");
   }

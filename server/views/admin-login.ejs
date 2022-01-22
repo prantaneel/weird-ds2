@@ -8,6 +8,7 @@
     <title>Admin Login</title>
   </head>
   <body>
+    
     <div class="route" id="welcome"></div>
     <div id="app">
       <div class="app-view">  
@@ -17,6 +18,9 @@
           <span class="app-subheading">
             sign in to continue<br/>
             to request window.
+            <% if (messages.error) { %>
+              <div class="error error-message"><%= messages.error %></div>
+            <% } %>
           </span>
         </header>
         <form method="POST" action="/admin-login" id="login-form">

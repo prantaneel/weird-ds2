@@ -22,7 +22,7 @@
 }
 
 .app-header {
-  padding: 6vh;
+  padding: 4vh 6vh;
 }
 .app-header,
 .app-header > * {
@@ -33,7 +33,7 @@
 .app-header > h1 {
   font-size: 4.8vh;
   font-weight: 400;
-  margin-bottom: 4.8vh;
+  margin-bottom: 4vh;
 }
 .app-header > h2 {
   font-size: 3vh;
@@ -70,37 +70,6 @@ input:focus {
   outline: none;
   box-shadow: inset 0 -0.5vh transparent;
 }
-/* input[type="email"] {
-  top: 58%;
-}
-input[type="password"] {
-  top: calc(58% + 7.5vh);
-}
-
-input[type="email"]:valid ~ * .st1 {
-  transition-timing-function: ease-in-out;
-  stroke-dasharray: 50, 153;
-  stroke-dashoffset: 25;
-}
-
-input[type="password"]:focus ~ * .st0,
-input[type="password"]:valid ~ * .st0,
-.app-button:focus ~ * .st0 {
-  stroke-dasharray: 210, 900;
-  stroke-dashoffset: -305;
-}
-input[type="name"]:focus ~ * .st0,
-input[type="name"]:valid ~ * .st0,
-.app-button:focus ~ * .st0 {
-  stroke-dasharray: 10, 40;
-  stroke-dashoffset: 50;
-}
-
-input[type="email"]:focus ~ * .st0 {
-  stroke-dasharray: 210, 900;
-  stroke-dashoffset: 0;
-}
- */
 input:not(:valid) ~ .app-button {
   pointer-events: none;
   opacity: 0.6;
@@ -118,237 +87,6 @@ input:not(:valid) ~ .app-button {
 .app-button:focus {
   outline: none;
 }
-
-/* @-webkit-keyframes button-press {
-  from,
-  20% {
-    opacity: 1;
-  }
-  10% {
-    opacity: 0.4;
-  }
-  40%,
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes button-press {
-  from,
-  20% {
-    opacity: 1;
-  }
-  10% {
-    opacity: 0.4;
-  }
-  40%,
-  to {
-    opacity: 0;
-  }
-}
-#welcome:target ~ * .app-button {
-  -webkit-animation: button-press 2s cubic-bezier(0.77, 0, 0.175, 1) both;
-  animation: button-press 2s cubic-bezier(0.77, 0, 0.175, 1) both;
-}
-#welcome:target ~ * .st0 {
-  stroke-dashoffset: -760;
-  stroke-dasharray: 140, 900;
-  transition-duration: 1.2s;
-  -webkit-animation: disappear 0s 1.3s both;
-  animation: disappear 0s 1.3s both;
-}
-#welcome:target ~ * .st1 {
-  transition-duration: 0.3s;
-  opacity: 0;
-}
-#welcome:target ~ * .app-graphic {
-  transform: translate(0, 0);
-  opacity: 1;
-}
-#welcome:target ~ * #svg-lines {
-  -webkit-animation: pulse 0.5833333333s 1.2s ease-in-out both;
-  animation: pulse 0.5833333333s 1.2s ease-in-out both;
-  -webkit-animation-iteration-count: 3;
-  animation-iteration-count: 3;
-}
-#welcome:target ~ * .svg-loader {
-  -webkit-animation: appear 0s 1.2s both;
-  animation: appear 0s 1.2s both;
-}
-#welcome:target ~ * .svg-loader-segment {
-  transition-delay: 3.75s;
-  opacity: 0;
-}
-#welcome:target ~ * .svg-loader-segment.-cal {
-  transform: translateX(4vh) translateY(-4vh);
-  stroke: #08b5cf;
-}
-#welcome:target ~ * .svg-loader-segment.-heart {
-  transform: translateX(3.5vh) translateY(6.7vh);
-  stroke: #9965aa;
-}
-#welcome:target ~ * .svg-loader-segment.-steps {
-  transform: translateX(-6.9vh) translateY(5.2vh);
-  stroke: #0f9ede;
-}
-#welcome:target ~ * .svg-loader-segment.-temp {
-  transform: translateX(-14vh) translateY(-4vh);
-  stroke: #f4814b;
-}
-#welcome:target ~ * .svg-data {
-  opacity: 1;
-  transform: translate(0, 0);
-  transition: transform 0.6s 4.95s, opacity 0.6s 4.95s,
-    stroke-dasharray 0.6s 4.95s, stroke-dashoffset 0.6s 4.95s;
-}
-#welcome:target ~ * .svg-data.-temp {
-  stroke-dasharray: 118;
-}
-#welcome:target ~ * .svg-data.-cal {
-  stroke-dasharray: 113;
-}
-#welcome:target ~ * .svg-data.-steps-bg,
-#welcome:target ~ * .svg-data.-steps {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 0;
-}
-#welcome:target ~ * .svg-data.-heart {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 0;
-}
-#welcome:target ~ * .svg-activity-fill,
-#welcome:target ~ * .svg-activity-line {
-  transform: translateY(0);
-  opacity: 1;
-  transition-duration: 1.2s;
-  transition-delay: 4.95s;
-}
-#welcome:target ~ * .app-view:nth-child(1) > :not(svg) {
-  opacity: 0;
-  pointer-events: none;
-}
-#welcome:target ~ * .app-view:nth-child(2) {
-  opacity: 1;
-  pointer-events: auto;
-}
-#welcome:target ~ * .app-view:nth-child(2) > .app-header > *,
-#welcome:target ~ * .app-view:nth-child(2) > .app-content,
-#welcome:target ~ * .app-view:nth-child(2) > .app-activity,
-#welcome:target ~ * .app-view:nth-child(2) .app-item,
-#welcome:target ~ * .app-view:nth-child(2) .app-item > *:not(.app-graphic) {
-  transform: translateY(0);
-  transition-delay: 4.95s;
-  opacity: 1;
-}
-#welcome:target ~ * .app-view:nth-child(2) > .app-activity {
-  opacity: 1;
-}
-#welcome:target ~ * .app-view:nth-child(2) .app-item,
-#welcome:target ~ * .app-view:nth-child(2) > .app-content {
-  border-color: #e3e3e3;
-}
-
-#welcome:not(:target) ~ * .app-graphic {
-  transition: all 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-}
-
-@-webkit-keyframes pulse {
-  from,
-  to {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
-
-@keyframes pulse {
-  from,
-  to {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
-@-webkit-keyframes disappear {
-  to {
-    opacity: 0;
-  }
-}
-@keyframes disappear {
-  to {
-    opacity: 0;
-  }
-}
-@-webkit-keyframes appear {
-  to {
-    opacity: 1;
-  }
-}
-@keyframes appear {
-  to {
-    opacity: 1;
-  }
-} */
-/* .app-view:nth-child(2) {
-  display: flex;
-  flex-direction: column;
-  pointer-events: none;
-}
-.app-view:nth-child(2) > .app-header {
-  font-size: 1rem;
-  flex-basis: 25%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 4vh;
-  padding-bottom: 1rem;
-}
-.app-view:nth-child(2) > .app-header > h2 {
-  transform: translateY(1rem);
-}
-.app-view:nth-child(2) > .app-header > h2 > em {
-  color: #0f9ede;
-  font-style: normal;
-}
-.app-view:nth-child(2) > .app-header > h2,
-.app-view:nth-child(2) .app-item > *:not(.app-graphic) {
-  transition-duration: 0.9s;
-  opacity: 0;
-}
-.app-view:nth-child(2) > .app-content {
-  display: flex;
-  flex-direction: row;
-  justify-content: stretch;
-  flex-wrap: wrap;
-  flex-basis: 40%;
-  border: 1px solid transparent;
-  border-left: none;
-  border-right: none;
-}
-.app-view:nth-child(2) > .app-activity {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  opacity: 0;
-}
-.app-view:nth-child(2) > .app-activity > .app-header {
-  padding: 4vh;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.app-view:nth-child(2) > .app-activity > .app-header > h2 {
-  flex-grow: 1;
-}
-.app-view:nth-child(2) > .app-activity > .app-graph {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-} */
-
 body {
   font-family: Lato, sans-serif;
   font-weight: 300;
@@ -376,4 +114,14 @@ body {
 }
 #register-form input {
   padding: 20px !important;
+}
+.error-message {
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
+  background-color: rgb(255, 189, 189);
+  padding: 5px;
+  text-align: center;
+  border-radius: 2px;
+  width: 100%;
 }

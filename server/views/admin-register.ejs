@@ -18,6 +18,9 @@
           <span class="app-subheading">
             sign up to <br/>
             request for admin role.
+            <% if (errorMessage) { %>
+              <div class="error error-message"><%= errorMessage %></div>
+            <% } %>
           </span>
         </header>
         <form method="POST" action="/admin-register" id="register-form">
