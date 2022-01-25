@@ -17,6 +17,11 @@
       <a href="/blog-editor">Create</a>
       <a href="/blogs">Blogs</a>
     </div>
+    <form
+      method="post"
+      action="/admin-logout?_method=DELETE"
+      id="logout-form"
+    ></form>
     <div class="blog-head">
       <div id="blog-title"></div>
       <div id="blog-time"></div>
@@ -30,4 +35,5 @@
   </body>
   <script src="./prism/prism.js"></script>
   <script src="./scripts/fetchArticle.js"></script>
+  <script src="./scripts/logout.js"></script>
 </html>

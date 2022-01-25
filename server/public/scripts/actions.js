@@ -1,4 +1,13 @@
 // Example POST method implementation:
+function titleChange() {
+  var title_name = document.getElementById("input_field").value;
+  if (title_name === "" || title_name == undefined) {
+    title_name = "Title";
+  }
+  document.getElementById("title_text").innerText = title_name;
+  document.title = title_name;
+}
+
 var onSubmitForReview = "Submitted for Review";
 
 function randomPostInterval() {
@@ -51,6 +60,9 @@ document.getElementById("btn").addEventListener("click", (e) => {
     showSnackBar(onSubmitForReview);
     setTimeout(() => {
       location.replace("/blog-editor");
+      if (editorWindowRef) {
+        editorWindowRef.close();
+      }
     }, randomPostInterval());
   }
 });

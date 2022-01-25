@@ -15,7 +15,13 @@
       <a class="active" href="/">Home</a>
       <a href="#">About</a>
       <a href="/blogs">Blogs</a>
+      <a id="logout">Log out</a>
     </div>
+    <form
+      method="post"
+      action="/admin-logout?_method=DELETE"
+      id="logout-form"
+    ></form>
 
     <div class="blog-head">
       <div id="blog-title"></div>
@@ -35,4 +41,5 @@
   </body>
   <script src="./prism/prism.js"></script>
   <script src="./scripts/admin-review.js"></script>
+  <script src="./scripts/logout.js"></script>
 </html>

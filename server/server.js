@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const blogidcalc = require("./functions/blog-id-calc");
 const constants = require("./functions/constants");
+const methodOverride = require("method-override");
 var cookieParser = require("cookie-parser");
 var flash = require("express-flash");
 const session = require("express-session");
@@ -39,12 +40,10 @@ app.use(
     origin: "*",
   })
 );
-app.use(cookieParser("secret"));
 app.set("view engine", "ejs");
 app.use(flash());
 app.use(
   session({
-    cookie: { maxAge: 60000 },
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -52,6 +51,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(methodOverride("_method"));
 //----------------------------------------------------------------
 //============================================================================
 ///------------------Random functions----------------------------------------------------------------
@@ -113,6 +113,7 @@ const pending_requests = {
 const denied_blogs = {
   declined_blogs: [],
 };
+const blogTags = [];
 const users = [
   {
     id: "1642801539637",
@@ -260,6 +261,10 @@ app.post(
     failureFlash: true,
   })
 );
+app.delete("/admin-logout", (req, res) => {
+  req.logOut();
+  res.redirect("/admin-login");
+});
 ////////////////////////////////
 /////////////////////////////function////////////////////////////
 function checkAuthenticated(req, res, next) {
@@ -276,12 +281,31 @@ function checkNotAuthenticated(req, res, next) {
 }
 ////////////////////////////////
 ////////////////////////////////////////////////////////////////
+app.get("/example-api", (req, res) => {
+  var data = [
+    { lol: 1, name: "rolex", freq: 27 },
+    { id: 2, name: "Python" },
+    { id: 13, name: "JavaScript" },
+    { id: 17, name: "ActionScript" },
+    { id: 19, name: "Scheme" },
+    { id: 23, name: "Lisp" },
+    { id: 29, name: "C#" },
+    { id: 31, name: "Fortran" },
+    { id: 37, name: "Visual Basic" },
+    { id: 41, name: "C" },
+    { id: 43, name: "C++" },
+    { id: 47, name: "Java" },
+    { id: 49, name: "fuck" },
+  ];
+  res.send(data);
+});
+////////////////////////////////////////////////////////////////
 //-------------end of endpoints----------------
 
 app.get("*", (req, res) => {
   res.sendFile(__dirname + "/public/error.html");
 });
 
-app.listen(PORT, function () {
+app.listen(3000, function () {
   console.log("Server started!");
 });

@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <script
+      type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"
+    ></script>
+    <script type="text/javascript" src="src/jquery.tokeninput.js"></script>
+
+    <link rel="stylesheet" href="styles/token-input.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="styles/token-input-facebook.css"
+      type="text/css"
+    />
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("input[type=button]").click(function () {
+          alert("Would submit: " + $(this).siblings("input[type=text]").val());
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <h2>Simple Local Data Search</h2>
+    <div>
+      <input type="text" id="demo-input-local" name="blah" />
+      <input type="button" value="Submit" />
+      <script type="text/javascript">
+        $(document).ready(function () {
+          $("#demo-input-local").tokenInput(
+            "http://localhost:5500/example-api"
+          );
+        });
+      </script>
+    </div>
+  </body>
+</html>

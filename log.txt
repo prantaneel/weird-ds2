@@ -8,3 +8,5 @@
 #blog_server_time -> time at which blog was submitted to the server
 
 blog-title-column
+
+#blogTags = [] q

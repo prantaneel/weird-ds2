@@ -13,7 +13,9 @@
       <a class="active" href="/">Home</a>
       <a href="#">About</a>
       <a href="/blogs">Blogs</a>
+      <a id="logout">Log out</a>
     </div>
+    <form method="post" action="/admin-logout?_method=DELETE" id="logout-form"></form>
 
     <div class="request-head"><h1>Declined Requests</h1></div>
     <table id = "data-table">
@@ -31,4 +33,5 @@
     </script>
   </body>
   <script src="./scripts/adminapprove-decline.js"></script>
+  <script src="./scripts/logout.js"></script>
 </html>
