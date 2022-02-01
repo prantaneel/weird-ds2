@@ -20,10 +20,10 @@ function createPermissionObjectTableRow(blogObject) {
   var server_time = blogObject.blog_server_time.time;
   var server_date = blogObject.blog_server_time.date;
   var title = blogObject.blog_title;
-  if (title.length > 100) {
-    title = title.substr(0, 100) + "...";
+  if (title.length > 50) {
+    title = title.substr(0, 50) + "...";
   }
-  permobj = `<tr><td>${id}</td><td><a href="/admin-review?bid=${id}" target="_blank">${title}</a></td><td>${server_time}<br>${server_date}</td></tr>`;
+  permobj = `<tr class="table-data-style"><td>${id}</td><td><a href="/admin-review?bid=${id}" target="_blank">${title}</a></td><td>${server_time}, ${server_date}</td></tr>`;
   console.log(permobj);
   return permobj;
 }

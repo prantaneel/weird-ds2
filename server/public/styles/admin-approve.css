@@ -60,7 +60,7 @@ td,
 th {
   border: 1px solid #afafaf;
   text-align: center;
-  padding: 8px;
+  padding: 4px;
 }
 
 tr:nth-child(even) {
@@ -79,4 +79,12 @@ tr:nth-child(even) {
   margin: auto;
   text-align: right;
   width: 60%;
+}
+.table-data-style {
+  font-size: 0.85rem;
+}
+@media only screen and (max-device-width: 1080px) {
+  table {
+    width: 90%;
+  }
 }

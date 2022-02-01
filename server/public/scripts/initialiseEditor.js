@@ -5,7 +5,7 @@ let liveData = {
 };
 tinymce.init({
   selector: "#mytextarea",
-  width: "70%",
+  width: "80%",
   height: 500,
   onchange_callback: "tinymceOnchange",
   setup: function (editor) {

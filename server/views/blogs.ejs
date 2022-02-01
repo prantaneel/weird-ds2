@@ -5,8 +5,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blogs</title>
+    <link rel="stylesheet" href="./styles/admin-approve.css"></link>
+    <link rel="stylesheet" href="/styles/_global.css">
+    
   </head>
   <body>
-    <h1>Blogs</h1>
+    <input id="page-nav-toggle" class="main-navigation-toggle" type="checkbox" />
+  <label for="page-nav-toggle">
+    <svg class="icon--menu-toggle" viewBox="0 0 60 30">
+      <g class="icon-group">
+        <g class="icon--menu">
+          <path d="M 6 0 L 54 0" />
+          <path d="M 6 15 L 54 15" />
+          <path d="M 6 30 L 54 30" />
+        </g>
+        <g class="icon--close">
+          <path d="M 15 0 L 45 30" />
+          <path d="M 15 30 L 45 0" />
+        </g>
+      </g>
+    </svg>
+  </label>
+
+<nav class="main-navigation">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/blogs">Blogs</a></li>
+    <li><a href="/blog-editor">Create</a></li>
+    <li><a href="/about">About</a></li>
+  </ul>
+</nav>
+    <div class="request-head"><h1>Blogs</h1></div>
+    <table id = "data-table">
+      <tr class="row-labels">
+        <td>Blog Id</td>
+        <td>Blog Title</td>
+        <td>Publish Time</td>
+      </tr>
+    </table>
+    <div id="empty-div"></div>
+    <script>
+      var blog_data = <%-JSON.stringify(blog_data)%>;
+      //console.log(pending_admin_requests);
+    </script>
+    
   </body>
+  <script src="/scripts/blogs.js"></script>
 </html>

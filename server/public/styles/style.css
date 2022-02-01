@@ -25,7 +25,11 @@ p {
   margin: auto;
   border-radius: 5px;
 }
-
+@media only screen and (max-device-width: 1080px) {
+  .blog-body {
+    width: 85%;
+  }
+}
 hr {
   color: #808080;
   background: #8080804d;
@@ -86,6 +90,7 @@ h3 {
   font-weight: bold;
   line-height: 1.2;
 }
+
 .input__field {
   box-sizing: border-box;
   display: block;
@@ -95,6 +100,7 @@ h3 {
   color: currentColor;
   background: transparent;
   border-radius: var(--size-radius);
+
   margin-bottom: 5px;
 }
 .input__field:not(:-moz-placeholder-shown) + .input__label {
@@ -115,6 +121,8 @@ h3 {
   display: flex;
   flex-direction: column;
   text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 #blog-title {
   font-weight: bold;
@@ -205,4 +213,8 @@ h3 {
     bottom: 0;
     opacity: 0;
   }
+}
+.math {
+  background-color: white;
+  border-radius: 2px;
 }

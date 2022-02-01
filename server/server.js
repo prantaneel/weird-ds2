@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
+const fs = require("fs");
 const express = require("express");
 const axios = require("axios");
 const bp = require("body-parser");
@@ -32,14 +33,16 @@ const timeURL = constants.TIME_URL;
 
 //----------------------------Configuration----------------------------------------------------
 const app = express();
-app.use(express.static(__dirname + "/public"));
-app.use(bp.json());
-app.use(bp.urlencoded({ extended: false }));
 app.use(
   cors({
     origin: "*",
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
   })
 );
+app.use(express.static(__dirname + "/public"));
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: false }));
+
 app.set("view engine", "ejs");
 app.use(flash());
 app.use(
@@ -104,29 +107,46 @@ async function getTime(url = "") {
 //------------------app settings----------------
 //-------------------storage------------------------------
 //----------------------------------------------------------------
-const blog_data = {
-  blogs: [],
-};
-const pending_requests = {
-  pending_blogs: [],
-};
-const denied_blogs = {
-  declined_blogs: [],
-};
-const blogTags = [];
-const users = [
-  {
-    id: "1642801539637",
-    name: "w",
-    email: "w@w",
-    password: "$2b$10$rfVPNSadHHHtBj9sB298Ju/1GthV1QeNuzhhabMtRpwZ6hc18mh3W",
-  },
-];
+var fileData;
+var blog_data = {};
+var pending_requests = {};
+var denied_blogs = {};
+var blogTags = [];
+var users = [];
 var blogIdState = INIT_BLOG_ID;
-//-------------------------------------------------
+//-----------------------Data initialisation-------------------------
+function getData() {
+  fileData = fs.readFileSync("../storage_temp/dataFile.json");
+  fileData = JSON.parse(fileData);
+  blog_data = fileData.blog_data;
+  pending_requests = fileData.pending_requests;
+  denied_blogs = fileData.denied_blogs;
+  blogTags = fileData.blogTags;
+  users = fileData.users;
+  blogIdState = fileData.blogIdState;
+  // console.log(
+  //   fileData,
+  //   blog_data,
+  //   pending_requests,
+  //   denied_blogs,
+  //   blogTags,
+  //   users
+  // );
+}
+function writeData() {
+  //console.log(fileData);
+  fileData.blog_data = blog_data;
+  fileData.pending_requests = pending_requests;
+  fileData.denied_blogs = denied_blogs;
+  fileData.blogTags = blogTags;
+  fileData.users = users;
+  fileData.blogIdState = blogIdState;
+  fs.writeFileSync("../storage_temp/dataFile.json", JSON.stringify(fileData));
+}
+getData();
 //------------------Landing Page----------------
 app.get("/", (req, res) => {
-  res.render("landing-page");
+  res.redirect("/blogs");
 });
 
 app.get("/blog-editor", (req, res) => {
@@ -146,20 +166,32 @@ app.get("/blog-entry", (req, res) => {
 //-------------------------------------------------
 app.get("/blog-data", (req, res) => {
   let bid = parseInt(req.query.bid);
-  res.render("blog-template", { bid: bid });
+  //console.log(bid);
+
+  for (articles in blog_data.blogs) {
+    if (blog_data.blogs[articles].blog_id === bid) {
+      //console.log(blog_data.blogs[articles]);
+      res.render("blog-template", { blogObject: blog_data.blogs[articles] });
+      return;
+    }
+  }
+  res.render("error");
 });
 //-----------------Add new blog------------------------------------------------
 //-------------------------------------------------
-app.post("/new-blog-post", async (req, res) => {
+app.post("/new-blog-post", cors(), async (req, res) => {
   const blogd = req.body;
   const serverTime = await getTime(timeURL);
   blogIdState = blogidcalc.getblogid(blogIdState, BLOG_ID_INC);
   var newDataObject = blogidcalc.formDataModel(blogd, blogIdState, serverTime);
   pending_requests.pending_blogs.push(newDataObject);
+  writeData();
+  res.sendStatus(200);
 });
 
 app.get("/admin-approve", checkAuthenticated, (req, res) => {
-  console.log(users);
+  //console.log(users);
+  //console.log(pending_requests);
   res.render("admin-approve", {
     pending_requests: pending_requests,
   });
@@ -197,6 +229,7 @@ app.post("/admin-approve", checkAuthenticated, (req, res) => {
     blog_data.blogs,
     OUT_OF_BOUNDS
   );
+  writeData();
   res.sendStatus(200);
 });
 //-------------live editor--------------------------------
@@ -207,7 +240,7 @@ app.get("/live-editor", (req, res) => {
 ////////////////////////////////////////////////////////////////
 ///-----------recommendation--------------------------------
 app.get("/blogs", (req, res) => {
-  res.render("blogs");
+  res.render("blogs", { blog_data: blog_data });
 });
 ////////////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -245,6 +278,7 @@ app.post("/admin-register", checkNotAuthenticated, async (req, res) => {
         email: req.body.email,
         password: hashedPassword,
       });
+      writeData();
       res.redirect("/admin-login");
     }
   } catch {

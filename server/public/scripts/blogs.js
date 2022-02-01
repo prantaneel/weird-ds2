@@ -18,17 +18,15 @@ function createPermissionObjectTableRow(blogObject) {
   if (title.length > 50) {
     title = title.substr(0, 50) + "...";
   }
-  permobj = `<tr class="table-data-style"><td>${id}</td><td><a href="/admin-review?bid=${id}" target="_blank">${title}</a></td><td>${server_time}, ${server_date}</td></tr>`;
+  permobj = `<tr class="table-data-style"><td>${id}</td><td><a href="/blog-data?bid=${id}" target="_blank">${title}</a></td><td>${server_time}, ${server_date}</td></tr>`;
   console.log(permobj);
   return permobj;
 }
 
-var pendingRequests = "";
-var arrlength = pending_admin_requests.pending_blogs.length;
+var blogData = "";
+var arrlength = blog_data.blogs.length;
 for (var i = 0; i < arrlength; i++) {
-  pendingRequests += createPermissionObjectTableRow(
-    pending_admin_requests.pending_blogs[i]
-  );
+  blogData = createPermissionObjectTableRow(blog_data.blogs[i]) + blogData;
 }
 if (arrlength === 0) {
   document.getElementById("data-table").style.display = "none";
@@ -37,7 +35,7 @@ if (arrlength === 0) {
   document.getElementById("empty-div").innerHTML =
     '<div class="empty-image"><img src="https://img.icons8.com/ios-glyphs/80/000000/empty-box.png"/><div>Empty</div></div>';
 } else {
-  document.getElementById("data-table").innerHTML += pendingRequests;
+  document.getElementById("data-table").innerHTML += blogData;
 }
 
 function openReviewer(blog_id) {
