@@ -87,10 +87,21 @@ function adminApprove(
 ) {
   var appCode = parseInt(approveBody.approve_code);
   var blogid = parseInt(approveBody.blog_id);
+  var rev = parseInt(approveBody.rev);
   var addData = deleteFromArray(pendingArray, blogid, OUT_OF_BOUNDS);
   if (addData === OUT_OF_BOUNDS)
     addData = deleteFromArray(declinedArray, blogid, OUT_OF_BOUNDS);
   if (appCode === 1) {
+    if (rev > 0) {
+      for (articles in blog_data.blogs) {
+        if (blog_data.blogs[articles].blog_id === blogid) {
+          //console.log(blog_data.blogs[articles]);
+          blog_data.blogs[articles].blog_title = addData.blog_title;
+          blog_data.blogs[articles].blog_html = addData.blog_html;
+          return;
+        }
+      }
+    }
     if (addData !== OUT_OF_BOUNDS) blogArray.push(addData);
   } else {
     if (addData !== OUT_OF_BOUNDS) declinedArray.push(addData);
@@ -146,7 +157,7 @@ function writeData() {
 getData();
 //------------------Landing Page----------------
 app.get("/", (req, res) => {
-  res.redirect("/blogs");
+  res.sendFile(__dirname + "/public/landing-page.html");
 });
 
 app.get("/blog-editor", (req, res) => {
@@ -177,6 +188,40 @@ app.get("/blog-data", (req, res) => {
   }
   res.render("error");
 });
+////////////////////////////////////////////////////////////////////////
+app.get("/blog-edit", (req, res) => {
+  var bid = parseInt(req.query.bid);
+  for (articles in blog_data.blogs) {
+    if (blog_data.blogs[articles].blog_id === bid) {
+      //console.log(blog_data.blogs[articles]);
+      res.render("blog-edit", { blogObject: blog_data.blogs[articles] });
+      return;
+    }
+  }
+});
+app.post("/blog-edit", async (req, res) => {
+  var body = req.body;
+  // console.log(body);
+  var bid = parseInt(body.blog_id);
+  const serverTime = await getTime(timeURL);
+  var ind = 0;
+  for (articles in blog_data.blogs) {
+    if (blog_data.blogs[articles].blog_id === bid) {
+      // console.log(blog_data.blogs[articles]);
+      ind = articles;
+      break;
+    }
+  }
+  blog_data.blogs[ind].rev++;
+  var newData = blog_data.blogs[ind];
+  newData.blog_server_time = serverTime;
+  newData.blog_title = body.blog_title;
+  newData.blog_html = body.blog_html;
+  pending_requests.pending_blogs.push(newData);
+  writeData();
+  res.sendStatus(200);
+});
+////////////////////////////////////////////////////////////////////////
 //-----------------Add new blog------------------------------------------------
 //-------------------------------------------------
 app.post("/new-blog-post", cors(), async (req, res) => {

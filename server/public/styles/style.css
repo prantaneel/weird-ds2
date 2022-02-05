@@ -218,3 +218,10 @@ h3 {
   background-color: white;
   border-radius: 2px;
 }
+.fa {
+  padding: 15px;
+  background-color: rgb(255, 198, 198);
+  text-align: center;
+  border-radius: 50%;
+  cursor: pointer;
+}

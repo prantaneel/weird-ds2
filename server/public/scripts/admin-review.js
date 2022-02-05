@@ -30,6 +30,7 @@ if (blogData === -1) {
 var sentdata = {
   blog_id: blogData.blog_id,
   approve_code: 0,
+  rev: blogData.rev,
 };
 function redirect(url) {
   location.replace(url);

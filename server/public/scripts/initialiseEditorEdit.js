@@ -4,28 +4,10 @@ let liveData = {
   blog_html: "",
 };
 tinymce.init({
-  selector: "#mytextarea",
+  selector: "#mytextareaedit",
   width: "70%",
   height: 500,
   onchange_callback: "tinymceOnchange",
-  setup: function (editor) {
-    editor.on("keyup", function (e) {
-      liveData.blog_title = document.getElementById("input_field").value;
-      liveData.blog_html = tinymce.get("mytextarea").getContent();
-      if (editorWindowRef) {
-        var time = new Date();
-        var date = time.toLocaleDateString();
-        time = time.toLocaleTimeString();
-        editorWindowRef.document.getElementById("blog-title").textContent =
-          liveData.blog_title;
-        editorWindowRef.document.getElementById(
-          "blog-time"
-        ).textContent = `Updated on ${date}, ${time}`;
-        editorWindowRef.document.getElementById("blog-body").innerHTML =
-          liveData.blog_html;
-      }
-    });
-  },
   codesample_languages: [
     { text: "HTML/XML", value: "markup" },
     { text: "JavaScript", value: "javascript" },

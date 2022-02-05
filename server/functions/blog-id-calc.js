@@ -8,6 +8,7 @@ function formDataModel(blogDataObject, blogId, serverTime) {
     blog_id: blogId,
     blog_title: blogDataObject.blog_title,
     blog_html: blogDataObject.blog_html,
+    rev: blogDataObject.rev,
     blog_server_time: serverTime,
   };
   return newData;
