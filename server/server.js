@@ -485,6 +485,10 @@ app.post("/image-upload", (req, res) => {
   var imageBody = req.body;
   console.log(imageBody);
 });
+////////////////////////////////////////////////////////////////////////////////////////////////
+app.get("/about-us", (req, res) => {
+  res.sendFile(__dirname + "/public/aboutUs.html");
+});
 ////////////////////////////////////////////////////////////////
 //-------------end of endpoints----------------
 
