@@ -71,7 +71,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  opacity: 0.2;
+  opacity: 0.4;
 }
 .empty-image img {
   min-width: 200px;
@@ -111,11 +111,21 @@ tr:nth-child(even) {
 .table-data-style {
   font-size: 0.85rem;
 }
+.page-navigator {
+  display: flex;
+  margin: 10px auto;
+  flex-direction: row;
+  width: 60%;
+  justify-content: flex-end;
+}
 @media only screen and (max-device-width: 1080px) {
   table {
     width: 90%;
   }
   .request-head-decline {
+    width: 90%;
+  }
+  .page-navigator {
     width: 90%;
   }
 }

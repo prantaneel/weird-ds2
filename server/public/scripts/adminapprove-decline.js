@@ -41,7 +41,7 @@ if (arrlength === 0) {
   // pendingRequests +=
   //   '<div class="empty-image"><img src="https://img.icons8.com/ios-glyphs/80/000000/empty-box.png"/><div>Empty</div></div>';
   document.getElementById("empty-div").innerHTML =
-    '<div class="empty-image"><img src="https://img.icons8.com/ios-glyphs/80/000000/empty-box.png"/><div>Empty</div></div>';
+    '<div class="empty-image"><img src="https://img.icons8.com/ios-glyphs/80/FFFFFF/empty-box.png"/><div>Empty</div></div>';
 } else {
   document.getElementById("data-table").innerHTML += declinedRequests;
 }

@@ -64,6 +64,10 @@
       </tr>
     </table>
     <div id="empty-div"></div>
+   <div class="page-navigator">
+    <div id="prev-num"></div>
+    <div id="next-num"></div>
+   </div>
     <!--footer-->
     <footer class="py-6">
       <hr style="width: 80%; margin: 30px auto" />
@@ -102,6 +106,10 @@
     </div>
     <script>
       var blog_data = <%-JSON.stringify(blog_data)%>;
+      var page = <%- JSON.stringify(page) %>;
+      page = parseInt(page);
+      document.getElementById("next-num").innerHTML = `<a href="/blogs?p=${page+1}"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/circled-chevron-right.png"/></a>`
+      document.getElementById("prev-num").innerHTML = `<a href="/blogs?p=${(page-1 >0 )?page-1:page}"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/circled-chevron-left.png"/></a>`
       //console.log(pending_admin_requests);
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

@@ -12,13 +12,16 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const blogidcalc = require("./functions/blog-id-calc");
 const constants = require("./functions/constants");
+const mongoose = require("mongoose");
+const BlogData = require("./model.js");
 const methodOverride = require("method-override");
 var cookieParser = require("cookie-parser");
 var flash = require("express-flash");
 const session = require("express-session");
-
+var ObjectId = require("mongodb").ObjectId;
+const OID = "62001890be7425026e2fba75";
 const initializePassport = require("./passport-config");
-
+////////////////////////////////////////////////////////////////////////////
 initializePassport(
   passport,
   (email) => users.find((user) => user.email === email),
@@ -30,6 +33,31 @@ const INIT_BLOG_ID = constants.INIT_BLOG_ID;
 const BLOG_ID_INC = constants.BLOG_ID_INC;
 const PORT = constants.PORT;
 const timeURL = constants.TIME_URL;
+////////////////////////////////////////////////////////////////
+const mongoDB =
+  "mongodb+srv://pran123:pran123@devconnector.oddkc.mongodb.net/algo-blog?retryWrites=true&w=majority";
+const connection = mongoose.connect(
+  mongoDB,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  () => {
+    console.log("Connected to Mongo DB Successfully!!");
+  }
+);
+// async function getDBdata() {
+//   var doc = await BlogData.find()
+//     .then((document) => {
+//       console.log(document[0]);
+//       return document;
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//     });
+// }
+// getDBdata();
+////////////////////////////////////////////////////////////////
 
 //----------------------------Configuration----------------------------------------------------
 const app = express();
@@ -42,7 +70,6 @@ app.use(
 app.use(express.static(__dirname + "/public"));
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: false }));
-
 app.set("view engine", "ejs");
 app.use(flash());
 app.use(
@@ -126,9 +153,16 @@ var blogTags = [];
 var users = [];
 var blogIdState = INIT_BLOG_ID;
 //-----------------------Data initialisation-------------------------
-function getData() {
-  fileData = fs.readFileSync("../storage_temp/dataFile.json");
-  fileData = JSON.parse(fileData);
+async function getData() {
+  fileData = await BlogData.find()
+    .then((document) => {
+      return document[0];
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  // fileData = fs.readFileSync("../storage_temp/dataFile.json");
+  // fileData = JSON.parse(fileData);
   blog_data = fileData.blog_data;
   pending_requests = fileData.pending_requests;
   denied_blogs = fileData.denied_blogs;
@@ -144,7 +178,7 @@ function getData() {
   //   users
   // );
 }
-function writeData() {
+async function writeData() {
   //console.log(fileData);
   fileData.blog_data = blog_data;
   fileData.pending_requests = pending_requests;
@@ -152,7 +186,14 @@ function writeData() {
   fileData.blogTags = blogTags;
   fileData.users = users;
   fileData.blogIdState = blogIdState;
-  fs.writeFileSync("../storage_temp/dataFile.json", JSON.stringify(fileData));
+  await BlogData.updateOne(
+    { _id: new ObjectId("620013d4be7425026e2fba74") },
+    {
+      $set: fileData,
+    }
+  ).catch((err) => {
+    console.error(err);
+  });
 }
 getData();
 //------------------Landing Page----------------
@@ -175,7 +216,8 @@ app.get("/blog-entry", (req, res) => {
 });
 //-------------------------------------------------
 //-------------------------------------------------
-app.get("/blog-data", (req, res) => {
+app.get("/blog-data", async (req, res) => {
+  await getData().catch((err) => console.log(err));
   let bid = parseInt(req.query.bid);
   //console.log(bid);
 
@@ -218,7 +260,7 @@ app.post("/blog-edit", async (req, res) => {
   newData.blog_title = body.blog_title;
   newData.blog_html = body.blog_html;
   pending_requests.pending_blogs.push(newData);
-  writeData();
+  await writeData().catch((err) => console.log(err));
   res.sendStatus(200);
 });
 ////////////////////////////////////////////////////////////////////////
@@ -230,18 +272,21 @@ app.post("/new-blog-post", cors(), async (req, res) => {
   blogIdState = blogidcalc.getblogid(blogIdState, BLOG_ID_INC);
   var newDataObject = blogidcalc.formDataModel(blogd, blogIdState, serverTime);
   pending_requests.pending_blogs.push(newDataObject);
-  writeData();
+  await writeData().catch((err) => console.log(err));
   res.sendStatus(200);
 });
 
-app.get("/admin-approve", checkAuthenticated, (req, res) => {
+app.get("/admin-approve", checkAuthenticated, async (req, res) => {
+  await getData().catch((err) => console.log(err));
+
   //console.log(users);
   //console.log(pending_requests);
   res.render("admin-approve", {
     pending_requests: pending_requests,
   });
 });
-app.get("/admin-declined", checkAuthenticated, (req, res) => {
+app.get("/admin-declined", checkAuthenticated, async (req, res) => {
+  await getData().catch((err) => console.log(err));
   res.render("declined-requests", {
     declined_requests: denied_blogs,
   });
@@ -265,7 +310,7 @@ app.get("/admin-review", checkAuthenticated, (req, res) => {
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 
-app.post("/admin-approve", checkAuthenticated, (req, res) => {
+app.post("/admin-approve", checkAuthenticated, async (req, res) => {
   const approveBody = req.body;
   adminApprove(
     approveBody,
@@ -274,7 +319,7 @@ app.post("/admin-approve", checkAuthenticated, (req, res) => {
     blog_data.blogs,
     OUT_OF_BOUNDS
   );
-  writeData();
+  await writeData().catch((err) => console.log(err));
   res.sendStatus(200);
 });
 //-------------live editor--------------------------------
@@ -284,16 +329,17 @@ app.get("/live-editor", (req, res) => {
 ////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ///-----------recommendation--------------------------------
-app.get("/blogs", (req, res) => {
-  res.render("blogs", { blog_data: blog_data });
-});
+// app.get("/blogs", (req, res) => {
+//   res.render("blogs", { blog_data: blog_data });
+// });
 ////////////////////////////////
 ////////////////////////////////////////////////////////////////
 /////---------------admin login--------------------------------
-app.get("/admin-login", checkNotAuthenticated, (req, res) => {
+app.get("/admin-login", checkNotAuthenticated, async (req, res) => {
+  await getData().catch((err) => console.log(err));
   res.render("admin-login.ejs");
 });
-app.get("/admin-register", checkNotAuthenticated, (req, res) => {
+app.get("/admin-register", checkOwner, (req, res) => {
   var regerr = req.query.registerError;
   if (regerr === "alreadyregistered") {
     res.render("admin-register.ejs", { errorMessage: "Already Registered" });
@@ -301,7 +347,7 @@ app.get("/admin-register", checkNotAuthenticated, (req, res) => {
     res.render("admin-register.ejs", { errorMessage: "Missing Credentials" });
   } else res.render("admin-register.ejs", { errorMessage: undefined });
 });
-app.post("/admin-register", checkNotAuthenticated, async (req, res) => {
+app.post("/admin-register", checkOwner, async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     //need to check if the user with that mail already exists
@@ -321,9 +367,10 @@ app.post("/admin-register", checkNotAuthenticated, async (req, res) => {
         id: Date.now().toString(),
         name: req.body.name,
         email: req.body.email,
+        role: "_mod",
         password: hashedPassword,
       });
-      writeData();
+      await writeData().catch((err) => console.log(err));
       res.redirect("/admin-login");
     }
   } catch {
@@ -344,7 +391,69 @@ app.delete("/admin-logout", (req, res) => {
   req.logOut();
   res.redirect("/admin-login");
 });
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///Admin password protected
+app.get("/admin-password-change", checkAuthenticated, (req, res) => {
+  var regerr = req.query.registerError;
+  if (regerr === "wrongpassword") {
+    res.render("change-password", { errorMessage: "Wrong Password" });
+  } else res.render("change-password", { errorMessage: undefined });
+});
+app.post("/admin-password-change", checkAuthenticated, async (req, res) => {
+  await getData().catch((err) => console.log(err));
+  var body = req.body;
+  var user = req.user;
+  // const hashedPasswordcurrent = await bcrypt.hash(
+  //   req.body.current_password,
+  //   10
+  // );
+  // console.log(hashedPasswordcurrent);
+  const hashedPasswordnew = await bcrypt.hash(req.body.new_password, 10);
+  var ind = -1;
+  for (element in users) {
+    if (users[element].email === user.email) {
+      ind = element;
+    }
+  }
+  var cmp = bcrypt.compare(
+    body.current_password,
+    users[ind].password,
+    (err, result) => {
+      if (!result) {
+        var registeredError = "wrongpassword";
+        res.redirect(`/admin-password-change?registerError=${registeredError}`);
+        return;
+      } else {
+        users[element].password = hashedPasswordnew;
+        writeData();
+        res.redirect("/admin-login");
+      }
+      return result;
+    }
+  );
+});
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+app.get("/blogs", async (req, res) => {
+  await getData().catch((err) => console.log(err));
+  var PERPAGE = 23;
+  var page;
+  if (!req.query.p) page = 0;
+  else page = parseInt(req.query.p) - 1;
+  var blogLength = blog_data.blogs.length;
+  if (blogLength < PERPAGE * page || page < 0) {
+    res.render("blogs", { blog_data: { blogs: blog_data.blogs }, page: 1 });
+  } else {
+    var initialInd = PERPAGE * page;
+    res.render("blogs", {
+      blog_data: {
+        blogs: blog_data.blogs.slice(initialInd, initialInd + PERPAGE),
+      },
+      page: page + 1,
+    });
+  }
+});
+////////////////////////////////////////////////////////////////
 /////////////////////////////function////////////////////////////
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -358,26 +467,17 @@ function checkNotAuthenticated(req, res, next) {
   }
   return next();
 }
+function checkOwner(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.role === "_owner") {
+      return next();
+    }
+  }
+  res.redirect("/admin-login");
+}
 ////////////////////////////////
 ////////////////////////////////////////////////////////////////
-app.get("/example-api", (req, res) => {
-  var data = [
-    { lol: 1, name: "rolex", freq: 27 },
-    { id: 2, name: "Python" },
-    { id: 13, name: "JavaScript" },
-    { id: 17, name: "ActionScript" },
-    { id: 19, name: "Scheme" },
-    { id: 23, name: "Lisp" },
-    { id: 29, name: "C#" },
-    { id: 31, name: "Fortran" },
-    { id: 37, name: "Visual Basic" },
-    { id: 41, name: "C" },
-    { id: 43, name: "C++" },
-    { id: 47, name: "Java" },
-    { id: 49, name: "fuck" },
-  ];
-  res.send(data);
-});
+
 ////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////Image CDN////////////////////////
