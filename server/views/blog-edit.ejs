@@ -16,6 +16,28 @@
     <script src="/scripts/initialiseEditorEdit.js"></script>
     <link rel="stylesheet" href="/styles/_global.css" />
     <title>Edit Blogpost</title>
+    <script
+      type="text/javascript"
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=MML_HTMLorMML"
+    ></script>
+    <!--vendors styles-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- Bootstrap CSS / Color Scheme -->
+    <link rel="stylesheet" href="/knight/css/default.css" id="theme-color" />
+    <style>
+      .navbar {
+        backdrop-filter: saturate(180%) blur(10px);
+        background-image: linear-gradient(
+          rgba(0, 0, 0, 0.637),
+          rgba(0, 0, 0, 0)
+        );
+      }
+    </style>
   </head>
 
   <body>
@@ -28,9 +50,9 @@
       <svg class="icon--menu-toggle" viewBox="0 0 60 30">
         <g class="icon-group">
           <g class="icon--menu">
-            <path d="M 6 0 L 54 0" />
-            <path d="M 6 15 L 54 15" />
-            <path d="M 6 30 L 54 30" />
+            <path d="M 10 5 L 70 5" />
+            <path d="M 10 20 L 70 20" />
+            <path d="M 10 35 L 70 35" />
           </g>
           <g class="icon--close">
             <path d="M 15 0 L 45 30" />
@@ -59,7 +81,7 @@
               id="input_field"
               onchange="titleChange()"
             />
-            <span class="input__label">a catchy title</span>
+            <!-- <span class="input__label">a catchy title</span> -->
           </div>
         </label>
       </div>
@@ -72,6 +94,43 @@
     <script>
       var blogObject = <%- JSON.stringify(blogObject) %>;
     </script>
+    <!--footer-->
+    <footer class="py-6">
+      <hr style="width: 80%; margin: 30px auto" />
+
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-5 mr-auto">
+            <h5>About Algo Blog</h5>
+            <p class="text-muted">
+              A platform developed as a side project for publishing articles on
+              computer science algortihms.
+            </p>
+            <ul class="list-inline social social-sm">
+              <li class="list-inline-item">
+                <a href="https://www.instagram.com/pranta.neel/"
+                  ><i class="fa fa-instagram"></i
+                ></a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.facebook.com/prantaneel.debnath.18"
+                  ><i class="fa fa-facebook"></i
+                ></a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#"><i class="fa fa-dribbble"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.7.3/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="js/scripts.js"></script>
     <script src="./prism/prism.js"></script>
   </body>
   <script src="/scripts/editActions.js"></script>

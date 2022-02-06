@@ -1,6 +1,27 @@
 @import url("https://fonts.googleapis.com/css?family=Merriweather:900&display=swap");
 @import url("http://fonts.cdnfonts.com/css/helvetica-neue-9");
 :root {
+  --blue: #2979ff;
+  --indigo: #3d5afe;
+  --purple: #d500f9;
+  --pink: #f50057;
+  --red: #ff1744;
+  --orange: #ff9100;
+  --yellow: #ffea00;
+  --green: #00e676;
+  --teal: #1de9b6;
+  --cyan: #00e5ff;
+  --white: #ffffff;
+  --gray: #607d8b;
+  --gray-dark: #455a64;
+  --primary: #1de9b6;
+  --secondary: #ffffff;
+  --success: #00e676;
+  --info: #00e5ff;
+  --warning: #ffea00;
+  --danger: #ff1744;
+  --light: #eceff1;
+  --dark: #11171a;
   --color-primary: #002626;
   --color-secondary: #f0f7ee;
   --duration: 1s;
@@ -223,4 +244,32 @@ h1 {
   100% {
     transform: translateY(0);
   }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-sans-serif);
+}
+p {
+  font-family: var(--font-family-sans-serif);
+  font-size: 18px;
+}
+.icon--menu-toggle {
+  display: flex;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.466);
+  border-radius: 50%;
+  padding: 5px;
+  /* padding: 10px 5px 10px 5px !important; */
+  justify-content: center;
+  align-items: center;
+}
+.icon--menu {
+  stroke: white;
+}
+a {
+  color: var(--green);
 }

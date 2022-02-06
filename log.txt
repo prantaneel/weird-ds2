@@ -10,3 +10,76 @@
 blog-title-column
 
 #blogTags = [] q
+
+const getImageDimensions = (image) => {
+      return new Promise((resolve, reject) => {
+        image.onload = function (e) {
+          const width = this.width;
+          const height = this.height;
+          resolve({ height, width });
+        };
+      });
+    };
+    const compressImage = (image, scale, initalWidth, initalHeight) => {
+      return new Promise((resolve, reject) => {
+        const canvas = document.createElement("canvas");
+
+        canvas.width = scale * initalWidth;
+        canvas.height = scale * initalHeight;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        ctx.canvas.toBlob((blob) => {
+          resolve(blob);
+        }, "image/png");
+      });
+    };
+
+    input.onchange = function () {
+      var file = this.files[0];
+      var reader = new FileReader();
+      const uploadedImage = file;
+      const inputPreview = document.createElement("img");
+      inputPreview.src = URL.createObjectURL(uploadedImage);
+
+      //get the dimensions of the input image
+      const { height, width } = await getImageDimensions(inputPreview);
+      const MAX_WIDTH = 600; //if we resize by width, this is the max width of compressed image
+      const MAX_HEIGHT = (height / width + 1) * MAX_WIDTH;
+      const widthRatioBlob = await compressImage(
+        inputPreview,
+        MAX_WIDTH / width,
+        width,
+        height
+      );
+      const heightRatioBlob = await compressImage(
+        inputPreview,
+        MAX_HEIGHT / height,
+        width,
+        height
+      );
+
+      //pick the smaller blob between both
+      const compressedBlob =
+        widthRatioBlob.size > heightRatioBlob.size
+          ? heightRatioBlob
+          : widthRatioBlob;
+      const optimalBlob =
+        compressedBlob.size < uploadedImage.size
+          ? compressedBlob
+          : uploadedImage;
+      //converting from blob to base 64
+      var reader2 = new FileReader();
+      reader2.readAsDataURL(optimalBlob);
+      var base64String;
+      reader2.onloadend = function () {
+        base64String = reader2.result;
+        img = base64String;
+        // var check = base64String.substr(0, 23);
+        // var IND;
+        // if (check.indexOf("png") === -1) IND = 23;
+        // else IND = 22;
+        // var sub = base64String.substr(IND);
+        // img = sub;
+      };

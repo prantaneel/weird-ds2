@@ -8,10 +8,6 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <title>Algo Blog</title>
-    <!-- <meta
-      name="description"
-      content="Knight is a beautiful Bootstrap 4 template for product landing pages."
-    /> -->
 
     <!--Inter UI font-->
     <link href="https://rsms.me/inter/inter-ui.css" rel="stylesheet" />
@@ -21,17 +17,18 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
-    />
 
     <!-- Bootstrap CSS / Color Scheme -->
     <link rel="stylesheet" href="/knight/css/default.css" id="theme-color" />
+    <style>
+      .navbar {
+        backdrop-filter: saturate(180%) blur(10px);
+        background-image: linear-gradient(
+          rgba(0, 0, 0, 0.637),
+          rgba(0, 0, 0, 0)
+        );
+      }
+    </style>
   </head>
   <body>
     <!--navigation-->
@@ -59,7 +56,7 @@
                 <a class="nav-link page-scroll" href="/blog-editor">Create</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link page-scroll" href="#faq">Support</a>
+                <a class="nav-link page-scroll" href="#">Support</a>
               </li>
             </ul>
           </div>
@@ -73,7 +70,15 @@
         <div class="row vh-md-100">
           <div class="col-md-8 col-sm-10 col-12 mx-auto my-auto text-center">
             <h1 class="heading-black text-capitalize">
-              Articles on lesser-known data structures & algos ;)
+              Articles on
+              <font
+                style="
+                  background-color: rgba(176, 66, 255, 0.979);
+                  padding: 3px;
+                "
+                >lesser-known</font
+              >
+              data structures & algos ;)
             </h1>
             <p class="lead py-3">
               Algo Blog is a platform that helps computer science enthusiasts to
@@ -91,9 +96,9 @@
       </div>
     </section>
 
-    <hr style="width: 80%; border: solid 1px rgba(255, 255, 255, 0.315)" />
     <!--footer-->
     <footer class="py-6">
+      <hr style="width: 80%; margin: 30px auto" />
       <div class="container">
         <div class="row">
           <div class="col-sm-5 mr-auto">
